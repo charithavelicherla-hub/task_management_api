@@ -16,7 +16,7 @@ app.use(express.json());
 // Home route
 app.get("/", (req, res) => {
     res.json({
-        message: "Task Management API is running"
+        message: "Task Management API is running",
     });
 });
 
@@ -24,17 +24,13 @@ app.get("/", (req, res) => {
 app.use("/api/tasks", taskRoutes);
 
 // Swagger API Documentation
-app.use(
-    "/api-docs",
-    swaggerUi.serve,
-    swaggerUi.setup(swaggerSpec)
-);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // 404 Handling
 app.use((req, res) => {
     res.status(404).json({
         success: false,
-        message: "Route not found"
+        message: "Route not found",
     });
 });
 
@@ -42,6 +38,7 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 // Start server
+// Start server only when this file is run directly
 async function startServer() {
     try {
         await initializeDatabase();
@@ -51,7 +48,12 @@ async function startServer() {
         });
     } catch (error) {
         console.error("Failed to start server:", error);
+        process.exitCode = 1;
     }
 }
 
-startServer();
+if (require.main === module) {
+    startServer();
+}
+
+module.exports = app;

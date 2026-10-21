@@ -6,12 +6,13 @@ let db;
 
 async function initializeDatabase() {
     db = await open({
-        filename: path.join(__dirname, "../data/tasks.db"),
-        driver: sqlite3.Database
+        filename:
+            process.env.DB_FILE || path.join(__dirname, "../data/tasks.db"),
+        driver: sqlite3.Database,
     });
 
     await db.exec(`
-        CREATE TABLE IF NOT EXISTS tasks (
+            CREATE TABLE IF NOT EXISTS tasks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
             description TEXT,
@@ -34,5 +35,5 @@ function getDatabase() {
 
 module.exports = {
     initializeDatabase,
-    getDatabase
+    getDatabase,
 };

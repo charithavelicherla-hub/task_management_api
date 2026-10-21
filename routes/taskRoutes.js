@@ -31,13 +31,12 @@ router.get("/", async (req, res, next) => {
         res.json({
             success: true,
             count: tasks.length,
-            data: tasks
+            data: tasks,
         });
     } catch (error) {
         next(error);
     }
 });
-
 
 /**
  * @openapi
@@ -67,27 +66,23 @@ router.get("/:id", async (req, res, next) => {
         const db = getDatabase();
         const { id } = req.params;
 
-        const task = await db.get(
-            "SELECT * FROM tasks WHERE id = ?",
-            id
-        );
+        const task = await db.get("SELECT * FROM tasks WHERE id = ?", id);
 
         if (!task) {
             return res.status(404).json({
                 success: false,
-                message: "Task not found"
+                message: "Task not found",
             });
         }
 
         res.json({
             success: true,
-            data: task
+            data: task,
         });
     } catch (error) {
         next(error);
     }
 });
-
 
 /**
  * @openapi
@@ -150,25 +145,24 @@ router.post("/", taskValidation, async (req, res, next) => {
                 title,
                 description || null,
                 status || "pending",
-                priority || "medium"
-            ]
+                priority || "medium",
+            ],
         );
 
         const newTask = await db.get(
             "SELECT * FROM tasks WHERE id = ?",
-            result.lastID
+            result.lastID,
         );
 
         res.status(201).json({
             success: true,
             message: "Task created successfully",
-            data: newTask
+            data: newTask,
         });
     } catch (error) {
         next(error);
     }
 });
-
 
 /**
  * @openapi
@@ -232,13 +226,13 @@ router.put("/:id", taskValidation, async (req, res, next) => {
 
         const existingTask = await db.get(
             "SELECT * FROM tasks WHERE id = ?",
-            id
+            id,
         );
 
         if (!existingTask) {
             return res.status(404).json({
                 success: false,
-                message: "Task not found"
+                message: "Task not found",
             });
         }
 
@@ -256,25 +250,24 @@ router.put("/:id", taskValidation, async (req, res, next) => {
                 description || null,
                 status || "pending",
                 priority || "medium",
-                id
-            ]
+                id,
+            ],
         );
 
         const updatedTask = await db.get(
             "SELECT * FROM tasks WHERE id = ?",
-            id
+            id,
         );
 
         res.json({
             success: true,
             message: "Task updated successfully",
-            data: updatedTask
+            data: updatedTask,
         });
     } catch (error) {
         next(error);
     }
 });
-
 
 /**
  * @openapi
@@ -306,29 +299,25 @@ router.delete("/:id", async (req, res, next) => {
 
         const existingTask = await db.get(
             "SELECT * FROM tasks WHERE id = ?",
-            id
+            id,
         );
 
         if (!existingTask) {
             return res.status(404).json({
                 success: false,
-                message: "Task not found"
+                message: "Task not found",
             });
         }
 
-        await db.run(
-            "DELETE FROM tasks WHERE id = ?",
-            id
-        );
+        await db.run("DELETE FROM tasks WHERE id = ?", id);
 
         res.json({
             success: true,
-            message: "Task deleted successfully"
+            message: "Task deleted successfully",
         });
     } catch (error) {
         next(error);
     }
 });
-
 
 module.exports = router;

@@ -7,16 +7,16 @@ const options = {
             title: "Task Management REST API",
             version: "1.0.0",
             description:
-                "RESTful API for managing tasks using Node.js, Express and SQLite."
+                "RESTful API for managing tasks using Node.js, Express and SQLite.",
         },
         servers: [
             {
-                url: "http://localhost:3000"
-            }
-        ]
+                url: "http://localhost:3000",
+            },
+        ],
     },
 
-    apis: ["./routes/*.js"]
+    apis: ["./routes/*.js"],
 };
 
 const swaggerSpec = swaggerJsdoc(options);

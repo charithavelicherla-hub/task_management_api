@@ -1,3 +1,19 @@
+
 node_modules/
 .env
 *.log
+
+# Test coverage reports
+coverage/
+
+# Temporary test databases
+data/*.test.db
+
+# SQLite database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Operating system files
+.DS_Store
+Thumbs.db
